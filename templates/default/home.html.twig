@@ -7,7 +7,7 @@
       <a class="list-group-item list-group-item-action" href="#">{{ sheet.name }}</a>
     {% endfor %}
   </div>
-  <button class="btn btn-sm btn-primary mb-4">New Sheet</button>
+  <button class="btn btn-sm btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#createSheetModal">New Sheet</button>
 
   <h2 class="h3"><i class="bi bi-gear"></i> Settings</h2>
   <div class="list-group my-3">
@@ -16,4 +16,21 @@
     <a class="list-group-item list-group-item-action" href="#"><i class="bi bi-person-x"></i> Delete my account</a>
     <a class="list-group-item list-group-item-action" href="{{ url('app_logout') }}"><i class="bi bi-box-arrow-right"></i> Logout</a>
   </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="createSheetModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createSheetModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="createSheetModalLabel">New Sheet</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {{ form_start(formSheet) }}
+            {{ form_widget(formSheet) }}
+          {{ form_end(formSheet) }}
+        </div>
+      </div>
+    </div>
+</div>
 {% endblock %}

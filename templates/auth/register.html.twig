@@ -1,0 +1,10 @@
+{% extends 'layouts/auth.html.twig' %}
+
+{% block content %}
+  <h1>S'inscrire</h1>
+  {% if registrationOk %}
+    <a href="{{ url('app_login') }}">Click here to log in.</a>
+  {% else %}
+    {{ form(form) }}
+  {% endif %}
+{% endblock %}
