@@ -58,9 +58,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Sheet::class, mappedBy: 'user')]
     private Collection $sheets;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $confirm = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $token = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
+    /**
+     * @var Collection<int, RequestToken>
+     */
+    #[ORM\OneToMany(targetEntity: RequestToken::class, mappedBy: 'user')]
+    private Collection $requestTokens;
+
     public function __construct()
     {
         $this->sheets = new ArrayCollection();
+        $this->requestTokens = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -222,6 +238,72 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($sheet->getUser() === $this) {
                 $sheet->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isConfirm(): ?bool
+    {
+        return $this->confirm;
+    }
+
+    public function setConfirm(?bool $confirm): static
+    {
+        $this->confirm = $confirm;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): static
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RequestToken>
+     */
+    public function getRequestTokens(): Collection
+    {
+        return $this->requestTokens;
+    }
+
+    public function addRequestToken(RequestToken $requestToken): static
+    {
+        if (!$this->requestTokens->contains($requestToken)) {
+            $this->requestTokens->add($requestToken);
+            $requestToken->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRequestToken(RequestToken $requestToken): static
+    {
+        if ($this->requestTokens->removeElement($requestToken)) {
+            // set the owning side to null (unless already changed)
+            if ($requestToken->getUser() === $this) {
+                $requestToken->setUser(null);
             }
         }
 

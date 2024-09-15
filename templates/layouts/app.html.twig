@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+  <div class="app-wrapper">
+    {% include "fragments/navbar.html.twig" %}
+    <main class="container{{app.request.attributes.get('_route') == 'app_home' ? '' : '-fluid' }}">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+{% endblock %}

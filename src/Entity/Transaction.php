@@ -31,6 +31,9 @@ class Transaction
     #[ORM\ManyToOne(inversedBy: 'transaction')]
     private ?Sheet $sheet = null;
 
+    #[ORM\ManyToOne(inversedBy: 'transactions')]
+    private ?Budget $budget = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +107,18 @@ class Transaction
     public function setSheet(?Sheet $sheet): static
     {
         $this->sheet = $sheet;
+
+        return $this;
+    }
+
+    public function getBudget(): ?Budget
+    {
+        return $this->budget;
+    }
+
+    public function setBudget(?Budget $budget): static
+    {
+        $this->budget = $budget;
 
         return $this;
     }

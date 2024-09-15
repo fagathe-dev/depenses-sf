@@ -1,0 +1,50 @@
+.app-logo {
+  width: 50px;
+  height: auto;
+}
+
+.form-group {
+  margin-block-end: 10px;
+}
+
+.auth-wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: start;
+  justify-content: flex-start;
+}
+.auth-wrapper .navbar {
+  width: 100%;
+}
+.auth-wrapper .auth-container {
+  width: 100%;
+  margin: 5vh auto;
+}
+@media screen and (min-width: 768px) {
+  .auth-wrapper .auth-container {
+    border-radius: 8px;
+    max-width: 700px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    padding: 1.6666666667vh 1.5rem 2.5vh;
+  }
+}
+
+.app-wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: start;
+  justify-content: flex-start;
+}
+.app-wrapper .navbar {
+  width: 100%;
+  margin-block-end: 0.87vh;
+  padding-block: 0;
+}
+
+/*# sourceMappingURL=main.css.map */

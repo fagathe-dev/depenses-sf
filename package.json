@@ -1,0 +1,14 @@
+{  
+  "name": "depense-sf",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compile:sass": "sass --watch public/scss/main.scss public/css/main.css",
+    "build": "sass public/scss/main.scss public/css/main.css"
+  },
+  "author": "Frédérick AGATHE",
+  "devDependencies": {
+    "sass": "^1.78.0"
+  }
+}

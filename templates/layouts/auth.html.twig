@@ -1,0 +1,13 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+  <div class="auth-wrapper">
+    {% include "auth/fragments/navbar.html.twig" %}
+    <div class="container">
+      <div class="auth-container">
+        {% include "fragments/flashes.html.twig" %}
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,10 +1,19 @@
-{% extends "base.html.twig" %}
+{% extends "layouts/app.html.twig" %}
 
-{% block body %}
-  <h1>Liste des sheets</h1>
+{% block content %}
+  <h1 class="h3"><i class="bi bi-file-spreadsheet"></i> Sheets</h1>
   <div class="list-group my-3">
     {% for sheet in sheets %}
       <a class="list-group-item list-group-item-action" href="#">{{ sheet.name }}</a>
     {% endfor %}
+  </div>
+  <button class="btn btn-sm btn-primary mb-4">New Sheet</button>
+
+  <h2 class="h3"><i class="bi bi-gear"></i> Settings</h2>
+  <div class="list-group my-3">
+    <a class="list-group-item list-group-item-action" href="#"><i class="bi bi-person-vcard"></i> Edit profile</a>
+    <a class="list-group-item list-group-item-action" href="#"><i class="bi bi-vr"></i> Change password</a>
+    <a class="list-group-item list-group-item-action" href="#"><i class="bi bi-person-x"></i> Delete my account</a>
+    <a class="list-group-item list-group-item-action" href="{{ url('app_logout') }}"><i class="bi bi-box-arrow-right"></i> Logout</a>
   </div>
 {% endblock %}
