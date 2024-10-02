@@ -39,8 +39,8 @@ security:
     access_control:
         - { path: ^/register, roles: PUBLIC_ACCESS, methods: [POST, GET] }
         - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/home, roles: ROLE_USER }
+        - { path: ^/emails, roles: ROLE_USER }
+        # - { path: ^/home, roles: ROLE_USER }
 
 when@test:
     security:

@@ -1,0 +1,35 @@
+{% extends "emails/base.html.twig" %}
+
+{% set transferLink = url('app_transfer_show', { accessToken: transfer.accessToken }) %}
+
+{% block content %}
+  <tr style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+    <td class="content-block" style="font-family: 'Roboto', sans-serif; box-sizing: border-box; line-height: 1.5; font-size: 24px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: center; font-weight: 500;" valign="top">
+      <span style="color: #4b38b3; text-decoration: none;">{{ transfer.emiter }}</span>
+      <br>
+      vous envoyé <span style="color: #4b38b3; text-decoration: none;">{{ transfer.name ?? 'des fichiers' }}</span>. 
+      <span valign="top" style="display: inline-block; padding: 4px 8px; font-size: 12px;background-color: #e4e1f4; color: #4b38b3; border-radius: 5px;">Expire le {{ transfer.expiredAt|date('d/m') }}</span>
+      <div style="padding: 20px; box-sizing: border-box; text-align: center; margin: 15px auto; border-radius: 5px; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+        {% if transfer.name %}
+          <h6 style="font-family: 'Roboto', sans-serif;margin: 0; font-size: 15px; color: #4b38b3;">{{ transfer.name }}</h6>
+        {% endif %}
+        <div style="font-size: 14px;color: #98a6ad;">
+          <strong>Message: </strong> <br>
+          <p>{{ transfer.message }}</p>
+        </div>
+      </div>
+    </td>
+  </tr>
+  <tr style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+    <td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler" style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 22px; text-align: center;" valign="top">
+      <a href="{{ transferLink }}" itemprop="url" style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: .8125rem; color: #FFF; text-decoration: none; font-weight: 400; text-align: center; cursor: pointer; display: inline-block; border-radius: .25rem; text-transform: capitalize; background-color: #4b38b3; margin: 0; border-color: #4b38b3; border-style: solid; border-width: 1px; padding: .5rem .9rem;box-shadow: 0 3px 3px rgba(56,65,74,0.1);">Récupérer vos fichiers</a>
+    </td>
+  </tr>
+  <tr style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+    <td class="content-block" style="color: #878a99; text-align: center;font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0; padding-top: 5px" valign="top">
+      <p style="margin-bottom: 10px;">Cliquer sur le lien suivant si l'email ne s'affiche pas correctement : </p>
+      <a href="{{ transferLink }}" target="_blank">{{ transferLink }}</a>
+    </td>
+  </tr>
+
+{% endblock %}

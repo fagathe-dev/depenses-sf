@@ -19,53 +19,18 @@ final class AuthService
     use ServiceTrait;
 
     /**
-     * @var UserRepository $repository
-     */
-    private $repository;
-
-    /**
-     * @var ValidatorInterface $validator
-     */
-    private $validator;
-
-    /**
-     * @var SerializerInterface $serializer
-     */
-    private $serializer;
-
-    /**
-     * @var EntityManagerInterface $manager
-     */
-    private $manager;
-
-    /**
-     * @var UrlGeneratorInterface $router
-     */
-    private $router;
-
-    /**
-     * @var AuthMailing $mailing
-     */
-    private $mailing;
-
-    /**
-     * @var UserPasswordHasherInterface $hasher
-     */
-    private $hasher;
-
-    /**
      * @var Slugify $slugger
      */
     private $slugger;
 
     public function __construct(
-        UserRepository $repository,
-        ValidatorInterface $validator,
-        SerializerInterface $serializer,
-        EntityManagerInterface $manager,
-        UrlGeneratorInterface $router,
-        AuthMailing $mailing,
-        UserPasswordHasherInterface $hasher
+        private UserRepository $repository,
+        private ValidatorInterface $validator,
+        private SerializerInterface $serializer,
+        private EntityManagerInterface $manager,
+        private UrlGeneratorInterface $router,
+        private AuthMailing $mailing,
+        private UserPasswordHasherInterface $hasher
     ) {
         $this->repository = $repository;
         $this->validator = $validator;

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "compile:sass": "sass --watch public/scss/main.scss public/css/main.css",
+    "scss": "sass --watch public/scss/main.scss public/css/main.css",
     "build": "sass public/scss/main.scss public/css/main.css"
   },
   "author": "Frédérick AGATHE",

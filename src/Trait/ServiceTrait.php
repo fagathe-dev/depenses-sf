@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Trait;
 
 use App\Entity\User;
 use DateTimeImmutable;
 use stdClass;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Validator\ConstraintViolationList;
 
 trait ServiceTrait
@@ -144,9 +146,13 @@ trait ServiceTrait
             Response::HTTP_BAD_REQUEST,
             $headers
         );
-
     }
 
+    /**
+     * @param ConstraintViolationList $violations
+     * 
+     * @return array
+     */
     public function filterViolations(ConstraintViolationList $violations): array
     {
         $errors = [];
@@ -157,9 +163,20 @@ trait ServiceTrait
                 // dd($violation->getPropertyPath());
                 $errors[$violation->getPropertyPath()] = $violation->getMessage();
             }
-
         }
 
         return $errors;
+    }
+
+    /**
+     * @param string $message
+     * @param string $type
+     * 
+     * @return void
+     */
+    public function addFlash(string $message, string $type = 'info'): void
+    {
+        $session = new Session;
+        $session->getFlashBag()->add($type, $message);
     }
 }

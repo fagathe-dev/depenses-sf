@@ -1,47 +1,43 @@
 <?php
+
 namespace App\Trait;
 
-use DateTime;
+use DateTimeImmutable;
 use Faker\Factory;
 
 trait FakerTrait
 {
 
-    /**
-     * @param DateTime $originalDateTime
-     *
-     * @return bool|DateTime
-     */
-    public function setDateTimeBetween(string $startDate = '-30 years', string $endDate = 'now', string $timezone = null): bool | DateTime
+    public function setDateTimeBetween(string $startDate = '-30 years', string $endDate = 'now', string $timezone = null): DateTimeImmutable
     {
         $timezone = $timezone ?? date_default_timezone_get();
-        $start = new DateTime($startDate);
-        $end = new DateTime($endDate);
+        $start = (new DateTimeImmutable())->modify($startDate);
+        $end = (new DateTimeImmutable())->modify($endDate);
 
         $interval = $end->diff($start);
         $days = 0;
-
+        
         if ($interval->y > 0) {
-            $days += ($interval->y * 365);
+            $days = 0 + ($interval->y * 365);
         }
         if ($interval->m > 0) {
-            $days += ($interval->m * 30);
+            $days = $days + ($interval->m * 30);
         }
         if ($interval->d > 0) {
-            $days += $interval->d;
+            $days += $days + $interval->d;
         }
 
         return $start->modify('+' . random_int(0, $days) . ' days');
     }
 
     /**
-     * @param DateTime $originalDateTime
+     * @param DateTimeImmutable $originalDateTime
      *
-     * @return bool|DateTime
+     * @return bool|DateTimeImmutable
      */
-    public function setDateTimeAfter(DateTime $originalDateTime): bool | DateTime
+    public function setDateTimeAfter(DateTimeImmutable $originalDateTime): DateTimeImmutable
     {
-        $now = new DateTime();
+        $now = new DateTimeImmutable();
         $interval = $now->diff($originalDateTime);
         $days = 0;
 
@@ -59,11 +55,11 @@ trait FakerTrait
     }
 
     /**
-     * @param DateTime $originalDateTime
+     * @param DateTimeImmutable $originalDateTime
      *
-     * @return bool|DateTime
+     * @return bool|DateTimeImmutable
      */
-    public function setRandomDatetimeAfter(DateTime $originalDateTime): bool | DateTime
+    public function setRandomDatetimeAfter(DateTimeImmutable $originalDateTime): DateTimeImmutable
     {
         $int = random_int(-60, 300);
         return $originalDateTime->modify(($int < 0 ? '+' : '-') . (string) $int . ' days');
@@ -103,5 +99,4 @@ trait FakerTrait
             random_int(1, $array_limit)
         );
     }
-
 }

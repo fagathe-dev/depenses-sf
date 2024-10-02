@@ -52,12 +52,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $lastname = null;
 
-    /**
-     * @var Collection<int, Sheet>
-     */
-    #[ORM\OneToMany(targetEntity: Sheet::class, mappedBy: 'user')]
-    private Collection $sheets;
-
     #[ORM\Column(nullable: true)]
     private ?bool $confirm = null;
 
@@ -73,10 +67,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: RequestToken::class, mappedBy: 'user')]
     private Collection $requestTokens;
 
+    /**
+     * @var Collection<int, Transfer>
+     */
+    #[ORM\OneToMany(targetEntity: Transfer::class, mappedBy: 'sender')]
+    private Collection $transfers;
+
     public function __construct()
     {
-        $this->sheets = new ArrayCollection();
         $this->requestTokens = new ArrayCollection();
+        $this->transfers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -214,36 +214,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return Collection<int, Sheet>
-     */
-    public function getSheets(): Collection
-    {
-        return $this->sheets;
-    }
-
-    public function addSheet(Sheet $sheet): static
-    {
-        if (!$this->sheets->contains($sheet)) {
-            $this->sheets->add($sheet);
-            $sheet->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSheet(Sheet $sheet): static
-    {
-        if ($this->sheets->removeElement($sheet)) {
-            // set the owning side to null (unless already changed)
-            if ($sheet->getUser() === $this) {
-                $sheet->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function isConfirm(): ?bool
     {
         return $this->confirm;
@@ -304,6 +274,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($requestToken->getUser() === $this) {
                 $requestToken->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transfer>
+     */
+    public function getTransfers(): Collection
+    {
+        return $this->transfers;
+    }
+
+    public function addTransfer(Transfer $transfer): static
+    {
+        if (!$this->transfers->contains($transfer)) {
+            $this->transfers->add($transfer);
+            $transfer->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransfer(Transfer $transfer): static
+    {
+        if ($this->transfers->removeElement($transfer)) {
+            // set the owning side to null (unless already changed)
+            if ($transfer->getSender() === $this) {
+                $transfer->setSender(null);
             }
         }
 
