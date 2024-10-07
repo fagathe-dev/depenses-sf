@@ -15,6 +15,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 final class TransferService
@@ -30,6 +31,7 @@ final class TransferService
         private SerializerInterface $serializer,
         private Security $security,
         private EntityManagerInterface $em,
+        private UrlGeneratorInterface $router,
     ) {
         $this->fs = new Filesystem;
     }
@@ -55,11 +57,12 @@ final class TransferService
             $fileName = $this->skipAccents($uploadedFile->getClientOriginalName());
             $file = new File;
             $file->setType(FileTypeEnum::matchMime($uploadedFile->getMimeType()))
+                ->setMimeType($uploadedFile->getMimeType())
                 ->setSize($uploadedFile->getSize())
                 ->setOriginalName($fileName)
                 ->setName($fileName)
                 ->setCreatedAt($this->now())
-                ->setPath(static::PUBLIC_DIR . $fileName)
+                ->setPath(str_replace('public/', '', static::PUBLIC_DIR) . $fileName)
             ;
 
             if (!$this->fs->exists($this->getUploadDir())) {
@@ -75,7 +78,13 @@ final class TransferService
             $this->em->persist($transfer);
             $this->em->flush();
             $this->transferMailing->transferEmail($transfer);
-            $this->addFlash('Transfer envoyé 🚀', 'info');
+            $this->addFlash(
+                'Transfer envoyé 🚀 
+                <hr>
+                <input type="text" class="d-none" id="transfer_' . $transfer->getId() . '" value="' . $this->router->generate('app_transfer_show', ['accessToken' => $transfer->getAccessToken()], UrlGeneratorInterface::ABSOLUTE_URL) . '">
+                <button type="button" onclick="copyLink(event);" data-copy-element="#transfer_' . $transfer->getId() . '" class="btn btn-success">Copier le lien <i class="bx bx-copy"></i></button>',
+                'info'
+            );
             return true;
         } catch (\Throwable $th) {
             $this->addFlash($th->getMessage(), 'danger');

@@ -3,11 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\FileRepository;
+use App\Trait\FileTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FileRepository::class)]
 class File
 {
+
+    use FileTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -37,6 +41,13 @@ class File
     #[ORM\ManyToOne(inversedBy: 'files')]
     private ?Transfer $transfer = null;
 
+    private ?string $nice_name = null;
+    private ?string $nice_size = null;
+    private ?bool $is_previewable = false;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $mime_type = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -54,6 +65,22 @@ class File
         return $this;
     }
 
+    public function getNiceName(): ?string
+    {
+        $this->nice_name = $this->setNiceName();
+
+        return $this->nice_name;
+    }
+
+    private function setNiceName(): ?string
+    {
+        if ($this->getName() === null) {
+            return null;
+        }
+
+        return '<i class="fs-17 ' . $this->getFileTypeIcon($this->getType()) . '"></i>&nbsp;' . $this->getName();
+    }
+
     public function getSize(): ?int
     {
         return $this->size;
@@ -64,6 +91,25 @@ class File
         $this->size = $size;
 
         return $this;
+    }
+
+    private function setNiceSize(): static
+    {
+        $this->nice_size = $this->formatSize($this->getSize());
+
+        return $this;
+    }
+
+    public function getNiceSize(): string
+    {
+        $this->setNiceSize();
+
+        return $this->nice_size;
+    }
+
+    public function getIsPreviewable(): bool
+    {
+        return $this->is_previewable = $this->canPreview($this->getType());
     }
 
     public function getPath(): ?string
@@ -134,6 +180,18 @@ class File
     public function setTransfer(?Transfer $transfer): static
     {
         $this->transfer = $transfer;
+
+        return $this;
+    }
+
+    public function getMimeType(): ?string
+    {
+        return $this->mime_type;
+    }
+
+    public function setMimeType(?string $mime_type): static
+    {
+        $this->mime_type = $mime_type;
 
         return $this;
     }

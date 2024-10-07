@@ -5,7 +5,7 @@
   {{ include('partials/title-meta.html.twig', {title: 'Landing'}) }}
 
   <!--Swiper slider css-->
-  <link href="assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('assets/libs/swiper/swiper-bundle.min.css') }}" rel="stylesheet" type="text/css" />
 
   {{ include('partials/head-css.html.twig') }}
 
@@ -43,10 +43,10 @@
   {% block js %}{% endblock %}
 
   <!--Swiper slider js-->
-  <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
+  <script src="{{ asset('assets/libs/swiper/swiper-bundle.min.js') }}"></script>
 
   <!-- landing init -->
-  <script src="assets/js/pages/landing.init.js"></script>
+  <script src="{{ asset('assets/js/pages/landing.init.js') }}"></script>
 </body>
 
 </html>

@@ -17,7 +17,6 @@ enum FileTypeEnum: string
     case Texte = 'Texte';
     case Video = 'Vidéo';
 
-
     public static function matchMime(string $mimeType): ?string
     {
         return match (true) {

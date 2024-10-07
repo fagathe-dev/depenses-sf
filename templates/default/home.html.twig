@@ -129,5 +129,17 @@
       
       return prototypeContainer.insertAdjacentHTML('beforeend', html);
     }
+
+    function copyLink(event) {
+      // Get the text field
+      const copyText = document.querySelector(event.target.dataset.copyElement);
+
+      // Select the text field
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); // For mobile devices
+
+      // Copy the text inside the text field
+      navigator.clipboard.writeText(copyText.value);
+    }
   </script>
 {% endblock %}
