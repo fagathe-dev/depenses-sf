@@ -4,7 +4,6 @@ const preview = (e) => {
     e.target.nodeName === "I" ? e.target.closest("button") : e.target;
   const data = button.dataset;
   const container = document.getElementById("mediaContainer");
-  console.info({data});
 
   const widget = getWidget(data);
 
