@@ -8,7 +8,7 @@ const preview = (e) => {
 
   const widget = getWidget(data);
 
-  container.insertAdjacentHTML("afterbegin", widget);
+  container.innerHTML = widget;
   return;
 };
 
